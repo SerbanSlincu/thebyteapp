@@ -1,0 +1,76 @@
+type Byte 
+  @model(subscriptions: null)
+  @auth(rules: [
+      {allow: groups, groups: ["Admin"]}
+      {allow: private, operations: [read]}
+      {allow: public, operations: [read]}
+    ])
+{
+  id: ID!
+  index: Int!
+  size: Int!
+  content: String
+  owner: String
+  price: Float
+  orders: [ByteOrder] @connection(keyName: "byByte", fields: ["id"])
+}
+
+type ByteOrder
+  @model(queries: null, subscriptions: null)
+  @key(name: "byByte", fields: ["byte_id", "order_id"])
+  @key(name: "byOrder", fields: ["order_id", "byte_id"])
+  @auth(
+    rules: [
+      {allow: owner, identityClaim: "email", ownerField: "customer"}
+      {allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID!
+  byte_id: ID!
+  order_id: ID!
+  byte: Byte @connection(fields: ["byte_id"])
+  order: Order @connection(fields: ["order_id"])
+}
+
+type Order
+  @model(subscriptions: null)
+  @auth(
+    rules: [
+      {allow: owner, identityClaim: "email", ownerField: "customer" }
+      {allow: groups, groups: ["Admin"] }
+    ]
+  )
+  @key(name: "byUser", fields: ["user"]) {
+    id: ID!
+    user: String!
+    date: String
+    total: Float
+    bytes: [ByteOrder] @connection(keyName: "byOrder", fields: ["id"])
+  }
+
+type Mutation {
+  processOrder(input: ProcessOrderInput!): OrderStatus
+    @function(name: "processPayment-${env}")
+    @function(name: "createOrder-${env}")
+}
+
+enum OrderStatus {
+  SUCCESS
+  FAILED
+}
+
+input CartItem {
+  id: ID!
+  index: Int
+  size: Int
+  price: Float
+  owner: String
+}
+
+input ProcessOrderInput {
+  id: ID!
+  cart: [CartItem]
+  total: Float!
+  token: String!
+  address: String
+}

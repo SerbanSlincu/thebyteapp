@@ -1,0 +1,153 @@
+{
+	"providers": {
+		"awscloudformation": {
+			"AuthRoleName": "amplify-thebyteapp-prod-103333-authRole",
+			"UnauthRoleArn": "arn:aws:iam::050002009557:role/amplify-thebyteapp-prod-103333-unauthRole",
+			"AuthRoleArn": "arn:aws:iam::050002009557:role/amplify-thebyteapp-prod-103333-authRole",
+			"Region": "eu-west-2",
+			"DeploymentBucketName": "amplify-thebyteapp-prod-103333-deployment",
+			"UnauthRoleName": "amplify-thebyteapp-prod-103333-unauthRole",
+			"StackName": "amplify-thebyteapp-prod-103333",
+			"StackId": "arn:aws:cloudformation:eu-west-2:050002009557:stack/amplify-thebyteapp-prod-103333/557b4b00-322e-11eb-a299-064437b396a4",
+			"AmplifyAppId": "d3bvgvlj9uwlrg"
+		},
+		"categories": {
+			"auth": {
+				"thebyteapp446fff6d": {}
+			}
+		}
+	},
+	"auth": {
+		"thebyteapp446fff6d": {
+			"service": "Cognito",
+			"providerPlugin": "awscloudformation",
+			"dependsOn": [],
+			"customAuth": false,
+			"output": {
+				"AppClientSecret": "9vd5a2823skahse6k3jp2qch1jiqmqd3qod3fkfcbjs74ahvpmv",
+				"UserPoolId": "eu-west-2_eaV1gT0Qu",
+				"AppClientIDWeb": "ogtsc27pohekbte38no9m3ck4",
+				"AppClientID": "4jj2l1rcnje5nl73sbt767trd9",
+				"IdentityPoolId": "eu-west-2:0bc556be-5bac-4fd0-b102-78d61339fd6b",
+				"IdentityPoolName": "thebyteapp446fff6d_identitypool_446fff6d__prod",
+				"UserPoolName": "thebyteapp446fff6d_userpool_446fff6d"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.957Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/auth/thebyteapp446fff6d-cloudformation-template.yml",
+				"logicalId": "auththebyteapp446fff6d"
+			}
+		}
+	},
+	"storage": {
+		"misc": {
+			"service": "S3",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"BucketName": "thebyteappcdc68999fdd2490fac9903262d2f285d103333-prod",
+				"Region": "eu-west-2"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.958Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/storage/s3-cloudformation-template.json",
+				"logicalId": "storagemisc"
+			}
+		}
+	},
+	"function": {
+		"processPayment": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [],
+			"output": {
+				"Region": "eu-west-2",
+				"Arn": "arn:aws:lambda:eu-west-2:050002009557:function:processPayment-prod",
+				"Name": "processPayment-prod",
+				"LambdaExecutionRole": "thebyteappLambdaRole5c40d099-prod"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.962Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/function/processPayment-cloudformation-template.json",
+				"logicalId": "functionprocessPayment"
+			},
+			"lastBuildTimeStamp": "2020-11-29T20:47:53.135Z",
+			"lastPackageTimeStamp": "2020-11-29T20:47:56.593Z",
+			"distZipFilename": "processPayment-4c346d6d55436c613870-build.zip",
+			"lastPushDirHash": "IVjbNGCwKKkqwqMfKo01b39Go7s="
+		},
+		"createOrder": {
+			"build": true,
+			"providerPlugin": "awscloudformation",
+			"service": "Lambda",
+			"dependsOn": [],
+			"output": {
+				"Region": "eu-west-2",
+				"Arn": "arn:aws:lambda:eu-west-2:050002009557:function:createOrder-prod",
+				"Name": "createOrder-prod",
+				"LambdaExecutionRole": "thebyteappLambdaRolebd21c33a-prod"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.959Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/function/createOrder-cloudformation-template.json",
+				"logicalId": "functioncreateOrder"
+			},
+			"lastBuildTimeStamp": "2020-11-29T15:52:29.722Z",
+			"lastPackageTimeStamp": "2020-11-29T15:52:29.919Z",
+			"distZipFilename": "createOrder-4e6855345030374d3133-build.zip",
+			"lastPushDirHash": "nNqKH5uJLnKimeBGt93CjWuXkWg="
+		}
+	},
+	"api": {
+		"thebyteapp": {
+			"service": "AppSync",
+			"providerPlugin": "awscloudformation",
+			"output": {
+				"authConfig": {
+					"additionalAuthenticationProviders": [
+						{
+							"authenticationType": "API_KEY",
+							"apiKeyConfig": {
+								"description": "Guest user access to data",
+								"apiKeyExpirationDays": 365
+							}
+						}
+					],
+					"defaultAuthentication": {
+						"authenticationType": "AMAZON_COGNITO_USER_POOLS",
+						"userPoolConfig": {
+							"userPoolId": "auththebyteapp446fff6d"
+						}
+					}
+				},
+				"GraphQLAPIIdOutput": "w2sn3l3jqvapth6isrhicnxpmi",
+				"GraphQLAPIEndpointOutput": "https://ehlsdsxdw5albmqsoatkr3sazq.appsync-api.eu-west-2.amazonaws.com/graphql",
+				"GraphQLAPIKeyOutput": "da2-7ei476ocdfbczme6o3jgodho4q"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.960Z",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/api/cloudformation-template.json",
+				"logicalId": "apithebyteapp"
+			},
+			"lastPushDirHash": "sw2rxyKN4+Ydvikgkzbw0Wn4u04="
+		}
+	},
+	"hosting": {
+		"S3AndCloudFront": {
+			"service": "S3AndCloudFront",
+			"providerPlugin": "awscloudformation",
+			"providerMetadata": {
+				"s3TemplateURL": "https://s3.amazonaws.com/amplify-thebyteapp-prod-103333-deployment/amplify-cfn-templates/hosting/template.json",
+				"logicalId": "hostingS3AndCloudFront"
+			},
+			"lastPushTimeStamp": "2020-11-29T20:49:31.962Z",
+			"output": {
+				"S3BucketSecureURL": "https://thebyteapp-20201129204728-hostingbucket-prod.s3.amazonaws.com",
+				"WebsiteURL": "http://thebyteapp-20201129204728-hostingbucket-prod.s3-website.eu-west-2.amazonaws.com",
+				"Region": "eu-west-2",
+				"HostingBucketName": "thebyteapp-20201129204728-hostingbucket-prod"
+			},
+			"lastPushDirHash": "Q4gn+CpJqNpMuYZ/OzusBIoiABI="
+		}
+	}
+}

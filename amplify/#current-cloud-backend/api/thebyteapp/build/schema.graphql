@@ -1,0 +1,303 @@
+type Byte @aws_api_key @aws_cognito_user_pools {
+  id: ID!
+  index: Int!
+  size: Int!
+  content: String
+  owner: String
+  price: Float
+  orders(order_id: ModelIDKeyConditionInput, filter: ModelByteOrderFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelByteOrderConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type ByteOrder {
+  id: ID!
+  byte_id: ID!
+  order_id: ID!
+  order: Order
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+  byte: Byte @aws_api_key @aws_cognito_user_pools
+}
+
+type Order {
+  id: ID!
+  user: String!
+  date: String
+  total: Float
+  bytes(byte_id: ModelIDKeyConditionInput, filter: ModelByteOrderFilterInput, sortDirection: ModelSortDirection, limit: Int, nextToken: String): ModelByteOrderConnection
+  createdAt: AWSDateTime!
+  updatedAt: AWSDateTime!
+}
+
+type Mutation {
+  processOrder(input: ProcessOrderInput!): OrderStatus
+  createByte(input: CreateByteInput!, condition: ModelByteConditionInput): Byte
+  updateByte(input: UpdateByteInput!, condition: ModelByteConditionInput): Byte
+  deleteByte(input: DeleteByteInput!, condition: ModelByteConditionInput): Byte
+  createByteOrder(input: CreateByteOrderInput!, condition: ModelByteOrderConditionInput): ByteOrder
+  updateByteOrder(input: UpdateByteOrderInput!, condition: ModelByteOrderConditionInput): ByteOrder
+  deleteByteOrder(input: DeleteByteOrderInput!, condition: ModelByteOrderConditionInput): ByteOrder
+  createOrder(input: CreateOrderInput!, condition: ModelOrderConditionInput): Order
+  updateOrder(input: UpdateOrderInput!, condition: ModelOrderConditionInput): Order
+  deleteOrder(input: DeleteOrderInput!, condition: ModelOrderConditionInput): Order
+}
+
+enum OrderStatus {
+  SUCCESS
+  FAILED
+}
+
+input CartItem {
+  id: ID!
+  index: Int
+  size: Int
+  price: Float
+  owner: String
+}
+
+input ProcessOrderInput {
+  id: ID!
+  cart: [CartItem]
+  total: Float!
+  token: String!
+  address: String
+}
+
+enum ModelSortDirection {
+  ASC
+  DESC
+}
+
+type ModelByteConnection @aws_api_key @aws_cognito_user_pools {
+  items: [Byte]
+  nextToken: String
+}
+
+input ModelStringInput {
+  ne: String
+  eq: String
+  le: String
+  lt: String
+  ge: String
+  gt: String
+  contains: String
+  notContains: String
+  between: [String]
+  beginsWith: String
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIDInput {
+  ne: ID
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  contains: ID
+  notContains: ID
+  between: [ID]
+  beginsWith: ID
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+  size: ModelSizeInput
+}
+
+input ModelIntInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelFloatInput {
+  ne: Float
+  eq: Float
+  le: Float
+  lt: Float
+  ge: Float
+  gt: Float
+  between: [Float]
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelBooleanInput {
+  ne: Boolean
+  eq: Boolean
+  attributeExists: Boolean
+  attributeType: ModelAttributeTypes
+}
+
+input ModelSizeInput {
+  ne: Int
+  eq: Int
+  le: Int
+  lt: Int
+  ge: Int
+  gt: Int
+  between: [Int]
+}
+
+input ModelByteFilterInput {
+  id: ModelIDInput
+  index: ModelIntInput
+  size: ModelIntInput
+  content: ModelStringInput
+  owner: ModelStringInput
+  price: ModelFloatInput
+  and: [ModelByteFilterInput]
+  or: [ModelByteFilterInput]
+  not: ModelByteFilterInput
+}
+
+enum ModelAttributeTypes {
+  binary
+  binarySet
+  bool
+  list
+  map
+  number
+  numberSet
+  string
+  stringSet
+  _null
+}
+
+type Query {
+  getOrder(id: ID!): Order
+  listOrders(filter: ModelOrderFilterInput, limit: Int, nextToken: String): ModelOrderConnection
+  listBytes(filter: ModelByteFilterInput, limit: Int, nextToken: String): ModelByteConnection @aws_api_key @aws_cognito_user_pools
+  getByte(id: ID!): Byte @aws_api_key @aws_cognito_user_pools
+}
+
+input CreateByteInput {
+  id: ID
+  index: Int!
+  size: Int!
+  content: String
+  owner: String
+  price: Float
+}
+
+input UpdateByteInput {
+  id: ID!
+  index: Int
+  size: Int
+  content: String
+  owner: String
+  price: Float
+}
+
+input DeleteByteInput {
+  id: ID
+}
+
+input ModelByteConditionInput {
+  index: ModelIntInput
+  size: ModelIntInput
+  content: ModelStringInput
+  owner: ModelStringInput
+  price: ModelFloatInput
+  and: [ModelByteConditionInput]
+  or: [ModelByteConditionInput]
+  not: ModelByteConditionInput
+}
+
+input CreateByteOrderInput {
+  id: ID
+  byte_id: ID!
+  order_id: ID!
+}
+
+input UpdateByteOrderInput {
+  id: ID!
+  byte_id: ID
+  order_id: ID
+}
+
+input DeleteByteOrderInput {
+  id: ID
+}
+
+input ModelByteOrderConditionInput {
+  byte_id: ModelIDInput
+  order_id: ModelIDInput
+  and: [ModelByteOrderConditionInput]
+  or: [ModelByteOrderConditionInput]
+  not: ModelByteOrderConditionInput
+}
+
+type ModelOrderConnection {
+  items: [Order]
+  nextToken: String
+}
+
+input ModelOrderFilterInput {
+  id: ModelIDInput
+  user: ModelStringInput
+  date: ModelStringInput
+  total: ModelFloatInput
+  and: [ModelOrderFilterInput]
+  or: [ModelOrderFilterInput]
+  not: ModelOrderFilterInput
+}
+
+input CreateOrderInput {
+  id: ID
+  user: String!
+  date: String
+  total: Float
+}
+
+input UpdateOrderInput {
+  id: ID!
+  user: String
+  date: String
+  total: Float
+}
+
+input DeleteOrderInput {
+  id: ID
+}
+
+input ModelOrderConditionInput {
+  user: ModelStringInput
+  date: ModelStringInput
+  total: ModelFloatInput
+  and: [ModelOrderConditionInput]
+  or: [ModelOrderConditionInput]
+  not: ModelOrderConditionInput
+}
+
+input ModelIDKeyConditionInput {
+  eq: ID
+  le: ID
+  lt: ID
+  ge: ID
+  gt: ID
+  between: [ID]
+  beginsWith: ID
+}
+
+type ModelByteOrderConnection {
+  items: [ByteOrder]
+  nextToken: String
+}
+
+input ModelByteOrderFilterInput {
+  id: ModelIDInput
+  byte_id: ModelIDInput
+  order_id: ModelIDInput
+  and: [ModelByteOrderFilterInput]
+  or: [ModelByteOrderFilterInput]
+  not: ModelByteOrderFilterInput
+}

@@ -1,0 +1,14 @@
+{
+    "CreateAPIKey": 1,
+    "AppSyncApiName": "thebyteapp",
+    "DynamoDBBillingMode": "PAY_PER_REQUEST",
+    "DynamoDBEnableServerSideEncryption": "false",
+    "AuthCognitoUserPoolId": {
+        "Fn::GetAtt": [
+            "auththebyteapp446fff6d",
+            "Outputs.UserPoolId"
+        ]
+    },
+    "S3DeploymentBucket": "amplify-thebyteapp-prod-103333-deployment",
+    "S3DeploymentRootKey": "amplify-appsync-files/b37e62924e0ac968e4e91e9efe3412458e195e45"
+}
